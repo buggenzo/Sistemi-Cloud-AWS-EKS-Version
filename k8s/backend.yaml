@@ -18,20 +18,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            timeoutSeconds: 5
           env:
             - name: DB_HOST
               valueFrom:
