@@ -9,6 +9,7 @@ on:
       - 'frontend/**'
       - 'backend/**'
       - 'k8s/**'
+      - '.github/workflows/**'
 
 jobs:
   build-and-deploy:
@@ -37,17 +38,6 @@ jobs:
         context: ./backend
         push: true
         tags: buggenzo/task-backend:latest
-
-    - name: Deploy su Kubernetes (Master Node)
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.AWS_MASTER_IP }}
-        username: ubuntu
-        key: ${{ secrets.AWS_SSH_KEY }}
-        script: |
-          # Riavvio pod per download immagini
-          kubectl rollout restart deployment backend-deploy
-          kubectl rollout restart deployment frontend-deploy
 
     - name: Configura le credenziali AWS
       uses: aws-actions/configure-aws-credentials@v4
