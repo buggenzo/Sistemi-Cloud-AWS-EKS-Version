@@ -20,15 +20,16 @@ resource "aws_security_group" "eks_nodes_sg" {
 }
 
 resource "aws_security_group" "rds_sg" {
+
   name        = "eks-rds-postgres-sg"
   description = "Consenti traffico PostgreSQL solo dai nodi EKS"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.eks_nodes_sg.id]
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -36,5 +37,5 @@ resource "aws_security_group" "rds_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
+  } 
 }
